@@ -33,7 +33,7 @@ static void *worker(void *arg){
 
 int main(int argc, char *argv[]) {
 	if(argc != 2){
-		fprintf(stderr, "Usage: %s <number of threads>", argv[0]);
+		fprintf(stderr, "Usage: %s <number of threads>\n", argv[0]);
 		exit(EXIT_FAILURE);
 	}
 
