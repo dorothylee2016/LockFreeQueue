@@ -39,36 +39,39 @@ int main(int argc, char *argv[]) {
 
 	int numThreads = atoi(argv[1]);
 	struct job *threads = (struct job *) malloc(sizeof(struct job) * numThreads);
-    if(threads == NULL) {
-    	perror("malloc");
+	if(threads == NULL) {
+		perror("malloc");
 		exit(EXIT_FAILURE);
 	}
 
 	for(size_t i = 0; i < numThreads; i++) {
 		struct job *job  = threads + i;
 		job->offset = (PROBLEM_SIZE / numThreads) * i;
-		
 		if(i == numThreads - 1){
 			job->size = PROBLEM_SIZE - (PROBLEM_SIZE / numThreads) * (numThreads - 1);
 		}else{
 			job->size = (PROBLEM_SIZE / numThreads);
 		}
 
-		errno = pthread_create(&job->tid, NULL, worker, job);
-		if(errno != 0){
+		pthread_t tid;
+		errno = pthread_create(&tid, NULL, worker, job);
+		if(errno != 0) {
 			perror("pthread_create");
+			free(threads);
 			exit(EXIT_FAILURE);
 		}
 
-		for(size_t i = 0; i < numThreads; i++) {
-			struct job *job = threads + i;
-			if(0 != pthread_join(job->tid, NULL)) {
-				fprintf(stderr, "pthread_join() failed\n");
-			}
+		job->tid = tid;
+	}
+
+	for(size_t i = 0; i < numThreads; i++) {
+		struct job *job = threads + i;
+		if(0 != pthread_join(job->tid, NULL)) {
+			fprintf(stderr, "pthread_join() failed\n");
 		}
 	}
-		
+
 	free(threads);
 
-	return 0;
+	exit(EXIT_SUCCESS);
 }
