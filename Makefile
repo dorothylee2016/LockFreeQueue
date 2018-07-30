@@ -1,6 +1,6 @@
 .PHONY: clean
 
-DEFAULT: exe/main
+DEFAULT: exe/main exe/mian_lock
 
 build/queue.o: src/queue.c
 	mkdir -p build
@@ -34,3 +34,6 @@ build/queue_lock.o: src/queue_lock.c
 	mkdir -p build
 	gcc -I include/ -c src/queue_lock.c -o build/queue_lock.o
 
+exe/main_lock: build/queue_lock.o build/spinlock.o build/main.o
+	mkdir -p exe
+	gcc -pthread -I include/ -o exe/main_lock build/queue_lock.o build/spinlock.o build/main.o
