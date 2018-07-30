@@ -10,6 +10,7 @@ static int mark_node(struct node *node){
 	uint64_t next_marked = 0;
 
 	__sync_bool_compare_and_swap(&next, 0, (uint64_t) node->next);	
+	next = next & (~((uint64_t) 0x1));
 	next_marked = next | 0x1;
 
 	return __sync_bool_compare_and_swap(&node->next, next, next_marked);	
@@ -87,8 +88,12 @@ void *queue_remove(){
 			return NULL;
 		}
 
+
 		__sync_bool_compare_and_swap(&tmp_next, 0, tmp->next);
-		mark_node(tmp);
+		retval = mark_node(tmp);
+		if(retval == 0){
+			continue;
+		}
 
 		retval = __sync_bool_compare_and_swap(&head, tmp, (struct node *) tmp_next);
 		if(retval == 0){
