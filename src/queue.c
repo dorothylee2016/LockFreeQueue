@@ -72,7 +72,7 @@ int queue_add(void *value){
 }
 
 
-void *queue_remove(struct node *head){
+void *queue_remove(){
 	struct node *tmp = NULL;
 	uint64_t tmp_next = 0;
 	int retval = 0;
