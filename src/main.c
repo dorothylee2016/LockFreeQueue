@@ -22,11 +22,13 @@ static void *worker(void *arg){
 		*value = job->offset + i;
 		printf("Thread %u add %d\n", job->tid, *value);
 		queue_add(value);
+		printf("Thread %u added %d\n", job->tid, *value);
 	}
 
 	for(int i = 0; i < job->size; i++){
+		printf("Thread %u remove\n", job->tid);
 		int *value = queue_remove();
-		printf("Thread %u remove %d\n", job->tid, *value);
+		printf("Thread %u removed %d\n", job->tid, *value);
 		free(value);
 	}
 
