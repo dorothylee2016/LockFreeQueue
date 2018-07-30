@@ -49,3 +49,6 @@ build/debug_queue_lock.o: src/queue_lock.c
 exe/debug_main_lock: build/debug_queue_lock.o build/debug_spinlock.o build/debug_main.o
 	mkdir -p exe
 	gcc -g -pthread -I include/ -o exe/debug_main_lock build/debug_queue_lock.o build/debug_spinlock.o build/debug_main.o
+
+clean::
+	rm -fr build/* exe/*
