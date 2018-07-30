@@ -14,17 +14,19 @@ struct job {
 
 static void *worker(void *arg){
 	struct job *job = (struct job *) arg;
-	for(int i = job->offset; i < job->size; i++){
+	for(int i = 0; i < job->size; i++){
 		int *value = malloc(sizeof(int));
 		if(value == NULL){
 			continue;
 		}
-
+		*value = job->offset + i;
+		printf("Thread %u add %d\n", job->tid, *value);
 		queue_add(value);
 	}
 
-	for(int i = job->offset; i < job->size; i++){
+	for(int i = 0; i < job->size; i++){
 		int *value = queue_remove();
+		printf("Thread %u remove %d\n", job->tid, *value);
 		free(value);
 	}
 
