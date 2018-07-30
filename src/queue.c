@@ -101,6 +101,7 @@ void *queue_remove(){
 		}
 
 		ret = tmp->value;
+		free(tmp);
 	}
 
 	return ret; 
