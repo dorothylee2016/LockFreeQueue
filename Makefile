@@ -25,3 +25,7 @@ build/debug_main.o: src/main.c
 exe/debug_main: build/debug_queue.o build/debug_main.o
 	mkdir -p exe
 	gcc -g -pthread -I include -o exe/debug_main build/debug_queue.o build/debug_main.o
+
+build/spinlock.o: src/spinlock.c
+	mkdir -p build
+	gcc -I include/ -c src/spinlock.c -o build/spinlock.o
