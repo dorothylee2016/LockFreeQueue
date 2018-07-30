@@ -29,3 +29,8 @@ exe/debug_main: build/debug_queue.o build/debug_main.o
 build/spinlock.o: src/spinlock.c
 	mkdir -p build
 	gcc -I include/ -c src/spinlock.c -o build/spinlock.o
+
+build/queue_lock.o: src/queue_lock.c
+	mkdir -p build
+	gcc -I include/ -c src/queue_lock.c -o build/queue_lock.o
+
